@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
 import { BlurView } from 'expo-blur';
+import {getPlato} from '../utils/cocinando.js';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { API_KEY } from '@env';
+
 
 export default function Search() {
     const altura = Dimensions.get('window').height;
@@ -43,6 +44,19 @@ export default function Search() {
     const eliminarPais = async () => {
         try {
             await removeSesion('pais');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const obtenerPlato = async () => {
+        const ingredientes_pais = {
+            ingredientes,
+            pais
+        };
+        try {
+            const plato = await getPlato(ingredientes_pais);
+            console.log( plato[0].message);
         } catch (error) {
             console.log(error);
         }
@@ -161,7 +175,10 @@ export default function Search() {
             <View style={[{}]} >
                 {
                     isKeyboardActive ? null :
-                        <TouchableOpacity style={{ backgroundColor: '#383838', padding: 10, borderRadius: 10, height: 60, justifyContent: "center", width: "75%", alignSelf: "center", justifyContent: "center" }}>
+                        <TouchableOpacity 
+                            style={{ backgroundColor: '#383838', padding: 10, borderRadius: 10, height: 60, justifyContent: "center", width: "75%", alignSelf: "center", justifyContent: "center" }}
+                            onPress={() => obtenerPlato()}
+                        >
                             <MaterialCommunityIcons style={{ alignSelf: "center" }} name="chef-hat" size={30} color="#F9CC00" />
                             <Text style={{ color: '#F9CC00', textAlign: "center", fontWeight: "bold" }}>Cocinar</Text>
                         </TouchableOpacity>
