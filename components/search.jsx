@@ -10,6 +10,7 @@ import {
 import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
 import { BlurView } from 'expo-blur';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { API_KEY } from '@env';
 
 export default function Search() {
     const altura = Dimensions.get('window').height;
