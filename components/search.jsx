@@ -5,15 +5,17 @@ import {
     ScrollView, Image, Platform,
     ActivityIndicator, ImageBackground,
     Dimensions, Alert, Linking, StatusBar,
-    TextInput, Button, Keyboard
+    TextInput, Button, Keyboard, Modal
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Search() {
     const altura = Dimensions.get('window').height;
+    const [modalPais, setModalPais] = useState(false);
     const [isKeyboardActive, setKeyboardActive] = useState(false);
     const [ingrediente, setIngrediente] = useState('');
     const [ingredientes, setIngredientes] = useState(['huevos', '2 papas', '3 zanahorias', '1 cebolla', '1 tomate', '1/2 taza de leche']);
+    const [pais, setPais] = useState('');
 
     const quitarIngrediente = (index) => {
         let ingredientesTemp = [...ingredientes];
@@ -26,7 +28,12 @@ export default function Search() {
             setIngrediente('');
         }
     }
-
+    useEffect(() => {
+        if (pais == '') {
+            setModalPais(true);
+        }
+        
+    }, []);
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -48,7 +55,7 @@ export default function Search() {
             {
                 isKeyboardActive ? null :
                     <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-                        <Text style={{ color: '#383838', fontWeight: "normal", fontSize: 13, marginRight: 20 }}>Pais: <Text style={{ fontWeight: "bold" }}> Perú</Text></Text>
+                        <Text style={{ color: '#383838', fontWeight: "normal", fontSize: 13, marginRight: 20 }}>Pais: <Text style={{ fontWeight: "bold" }}> { pais}</Text></Text>
                     </View>
             }
 
@@ -118,7 +125,30 @@ export default function Search() {
                         <Text style={{ color: '#ccc', fontWeight: "normal", fontSize: 13, marginLeft: 20 }}>By Frank Cairampoma (@fralch)</Text>
                     </View>
             }
+             <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalPais}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalViewResultado}>
+                        <Text style={[styles.textoModal, { fontSize: 20, textAlign: "center" }]}>Escribe tu pais</Text>
+                        <TextInput
+                            style={[styles.input, { width: "100%", marginTop: 20 }]} placeholder="Escribe tu pais"
+                            onChangeText={text => setPais(text)} value={pais}
+                        />
+
+                        <TouchableOpacity style={[styles.button, { backgroundColor: "#0D62A5", paddingVertical: 10, paddingHorizontal: 30 }]} onPress={() => { setModalResultado(false) }} >
+                            <Text style={[styles.textoModal, { color: "white" }]}>Ok</Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+
+                </View>
+            </Modal>
         </View>
+        
     );
 
 };
@@ -137,5 +167,24 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         borderColor: '#bbb',
-    }
+    },
+    modalViewResultado: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        width: "80%",
+        height: "40%",
+    },
+    textoModal: {
+        color: "#383838",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+      },
 });
