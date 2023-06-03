@@ -137,10 +137,18 @@ export default function Search() {
                         
                         <TextInput
                             style={[styles.input, { width: "100%", marginTop: 20 }]} placeholder="Escribe tu pais"
-                            onChangeText={text => setPais(text)} value={pais}
+                            onChangeText={text => {
+                                if (text != '') {
+                                    setPais(text);
+                                }
+                            }} value={pais}
                         />
 
-                        <TouchableOpacity style={[{ backgroundColor: "#F9CC00", paddingVertical: 10, paddingHorizontal: 30 }]} onPress={() => { setModalPais(false) }} >
+                        <TouchableOpacity style={[{ backgroundColor: "#F9CC00", paddingVertical: 10, paddingHorizontal: 30 }]} onPress={() => { 
+                            if(pais != ''){
+                                setModalPais(false);
+                            }
+                         }} >
                             <Text style={[styles.textoModal, { color: "white" }]}>Ok</Text>
                         </TouchableOpacity>
 
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
         width: "75%",
         borderWidth: 1,
         padding: 10,
+        marginBottom: 20,
         borderRadius: 10,
         borderColor: '#bbb',
     },
@@ -176,7 +185,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 35,
         width: "80%",
-        height: "30%",
+        height: "29%",
     },
     textoModal: {
         color: "#383838",
@@ -184,10 +193,6 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
       },
       blurBackground: {
         flex: 1,
