@@ -7,6 +7,7 @@ import {
     Dimensions, Alert, Linking, StatusBar,
     TextInput, Button, Keyboard, Modal
 } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Search() {
@@ -130,22 +131,23 @@ export default function Search() {
                 transparent={true}
                 visible={modalPais}
             >
-                <View style={styles.centeredView}>
+                 <BlurView intensity={90} tint="dark" style={styles.blurBackground}>
                     <View style={styles.modalViewResultado}>
-                        <Text style={[styles.textoModal, { fontSize: 20, textAlign: "center" }]}>Escribe tu pais</Text>
+                        <Text style={[styles.textoModal, { fontSize: 15, textAlign: "center",}]}>Escribe tu pais</Text>
+                        
                         <TextInput
                             style={[styles.input, { width: "100%", marginTop: 20 }]} placeholder="Escribe tu pais"
                             onChangeText={text => setPais(text)} value={pais}
                         />
 
-                        <TouchableOpacity style={[styles.button, { backgroundColor: "#0D62A5", paddingVertical: 10, paddingHorizontal: 30 }]} onPress={() => { setModalResultado(false) }} >
+                        <TouchableOpacity style={[{ backgroundColor: "#F9CC00", paddingVertical: 10, paddingHorizontal: 30 }]} onPress={() => { setModalPais(false) }} >
                             <Text style={[styles.textoModal, { color: "white" }]}>Ok</Text>
                         </TouchableOpacity>
 
 
                     </View>
 
-                </View>
+                </BlurView>
             </Modal>
         </View>
         
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 35,
         width: "80%",
-        height: "40%",
+        height: "30%",
     },
     textoModal: {
         color: "#383838",
@@ -186,5 +188,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
+      },
+      blurBackground: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
       },
 });
