@@ -7,6 +7,7 @@ import {
     Dimensions, Alert, Linking, StatusBar,
     TextInput, Button, Keyboard, Modal
 } from 'react-native';
+import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
 import { BlurView } from 'expo-blur';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -16,7 +17,7 @@ export default function Search() {
     const [isKeyboardActive, setKeyboardActive] = useState(false);
     const [ingrediente, setIngrediente] = useState('');
     const [ingredientes, setIngredientes] = useState(['huevos', '2 papas', '3 zanahorias', '1 cebolla', '1 tomate', '1/2 taza de leche']);
-    const [pais, setPais] = useState('');
+    const [pais, setPais] = useState(null);
 
     const quitarIngrediente = (index) => {
         let ingredientesTemp = [...ingredientes];
@@ -29,12 +30,48 @@ export default function Search() {
             setIngrediente('');
         }
     }
-    useEffect(() => {
-        if (pais == '') {
-            setModalPais(true);
+
+    const guardarPais = async () => {
+        try {
+            await storeSesion(pais);
+        } catch (error) {
+            console.log(error);
         }
+    }
+    
+    const eliminarPais = async () => {
+        try {
+            await removeSesion('pais');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        const getPais = async () => {
+            try {
+                const pais = await getSesion('pais');
+                if (pais != null) {
+                    setPais(pais);
+                }
+                if (pais == null) {
+                    setModalPais(true);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+            console.log(pais);
+            
+        }
+        getPais();
+    
+        
+        
+            
         
     }, []);
+
+    
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -55,9 +92,18 @@ export default function Search() {
         <View style={styles.container}>
             {
                 isKeyboardActive ? null :
-                    <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-                        <Text style={{ color: '#383838', fontWeight: "normal", fontSize: 13, marginRight: 20 }}>Pais: <Text style={{ fontWeight: "bold" }}> { pais}</Text></Text>
-                    </View>
+                    <TouchableOpacity style={{ flexDirection: "row", alignSelf: "flex-end" }} onPress={
+                        () => {
+                            if(pais != null){
+                                eliminarPais();
+                                setPais(null);
+                                setModalPais(true);
+                            }
+                        }
+                     }
+                    >
+                        <Text style={{ color: '#383838', fontWeight: "normal", fontSize: 13, marginRight: 20 }}>País: <Text style={{ fontWeight: "bold" }}> { pais}</Text></Text>
+                    </TouchableOpacity>
             }
 
             <View style={{ marginTop: 50 }}>
@@ -146,6 +192,7 @@ export default function Search() {
 
                         <TouchableOpacity style={[{ backgroundColor: "#F9CC00", paddingVertical: 10, paddingHorizontal: 30 }]} onPress={() => { 
                             if(pais != ''){
+                                guardarPais();
                                 setModalPais(false);
                             }
                          }} >
@@ -175,7 +222,7 @@ const styles = StyleSheet.create({
         width: "75%",
         borderWidth: 1,
         padding: 10,
-        marginBottom: 20,
+        marginBottom: 10,
         borderRadius: 10,
         borderColor: '#bbb',
     },
@@ -185,7 +232,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 35,
         width: "80%",
-        height: "29%",
+        height: "33%",
     },
     textoModal: {
         color: "#383838",
