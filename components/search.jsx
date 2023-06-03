@@ -169,7 +169,7 @@ export default function Search() {
             {
                 isKeyboardActive ? null :
                     <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                        <Text style={{ color: '#ccc', fontWeight: "normal", fontSize: 13, marginLeft: 20 }}>By Frank Cairampoma (@fralch)</Text>
+                        <Text style={{ color: '#ddd', fontWeight: "normal", fontSize: 13, marginLeft: 20 }}>By Frank Cairampoma (@fralch)</Text>
                     </View>
             }
              <Modal
