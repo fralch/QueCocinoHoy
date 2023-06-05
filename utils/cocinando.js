@@ -1,6 +1,7 @@
 import { API_KEY } from '@env';
 
 export const getPlato = async (ingredientes_pais) => {
+    console.log('iniciando gpt-3');
     const array_ingredientes = ingredientes_pais.ingredientes; 
     const pais = ingredientes_pais.pais;
 
@@ -29,16 +30,16 @@ export const getPlato = async (ingredientes_pais) => {
                     content: 
                         `
                             El usuario quiere cocinar algo con ${ingredientes} y 
-                            es de ${pais}, ¿qué le recomiendas?, debes responder en español.
-                            Y en formato de JSON.stringify como por ejemplo:
-                            {
+                            quiere cocinar una comida muy tipica de ${pais}, que no sea ningun tipo de tortilla a menos que el pais sea de mexico, puedes agregar algunos ingredientes,  ¿qué le recomiendas?, debes responder en español.
+                            Y en formato de JSON como por ejemplo:
+                            
                                 "tus_ingredientes": "pollo, arroz, tomate",
                                 "ingredientes_extra": "sal, pimienta",
                                 "pais": "Colombia",
                                 "respuesta": "Arroz con pollo",
                                 "receta": "..."
-                            }   
-                            SOLO BRINDAR UNA RESPUESTA EN FORMATO JSON.stringify, SIN COMENTARIOS NI NADA.
+                               
+                            SOLO BRINDAR UNA RESPUESTA EN FORMATO JSON, SIN COMENTARIOS NI NADA. 
                         `
                 },
                 {
@@ -49,7 +50,7 @@ export const getPlato = async (ingredientes_pais) => {
         })
     })
     const data = await respuesta.json();
-    console.log(data.choices)   ;
-    // return data.choices;
+    // console.log(data.choices)   ;
+    return data.choices;
 
 }

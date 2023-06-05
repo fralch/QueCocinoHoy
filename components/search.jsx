@@ -56,7 +56,7 @@ export default function Search() {
         };
         try {
             const plato = await getPlato(ingredientes_pais);
-            console.log( plato[0].message);
+            console.log( plato);
         } catch (error) {
             console.log(error);
         }
