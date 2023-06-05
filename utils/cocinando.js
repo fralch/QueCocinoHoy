@@ -1,8 +1,19 @@
 import { API_KEY } from '@env';
 
 export const getPlato = async (ingredientes_pais) => {
-    const ingredientes = ingredientes_pais.ingredientes; 
+    const array_ingredientes = ingredientes_pais.ingredientes; 
     const pais = ingredientes_pais.pais;
+
+    let ingredientes = "";
+    for (let i = 0; i < array_ingredientes.length; i++) {
+        if (i === array_ingredientes.length - 1) {
+            ingredientes += array_ingredientes[i];
+        } else {
+            ingredientes += array_ingredientes[i] + ", ";
+        }
+    }
+    
+    // console.log(ingredientes);
 
     const respuesta = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -21,11 +32,13 @@ export const getPlato = async (ingredientes_pais) => {
                             es de ${pais}, ¿qué le recomiendas?, debes responder en español.
                             Y en formato de JSON.stringify como por ejemplo:
                             {
-                                "ingredientes": "pollo, arroz, tomate",
+                                "tus_ingredientes": "pollo, arroz, tomate",
+                                "ingredientes_extra": "sal, pimienta",
                                 "pais": "Colombia",
                                 "respuesta": "Arroz con pollo",
                                 "receta": "..."
                             }   
+                            SOLO BRINDAR UNA RESPUESTA EN FORMATO JSON.stringify, SIN COMENTARIOS NI NADA.
                         `
                 },
                 {
@@ -37,6 +50,6 @@ export const getPlato = async (ingredientes_pais) => {
     })
     const data = await respuesta.json();
     console.log(data.choices)   ;
-    return data.choices;
+    // return data.choices;
 
 }
