@@ -16,6 +16,15 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 export default function Receta (){
     const altura = Dimensions.get('window').height;
     const [loading, setLoading] = useState(true);   
+    const [plato, setPlato] = useState("ceviche");
+    const [imagen, setImagen] = useState("");
+
+    //scraping imagen de google imagenes
+    
+    useEffect(() => {
+       
+    }, []);
+
 
     return (
         <View style={[styles.container, {flexDirection: 'column'}]}>
