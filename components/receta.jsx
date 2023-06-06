@@ -7,6 +7,7 @@ import {
     Dimensions, Alert, Linking, StatusBar,
     TextInput, Button, Keyboard, Modal
 } from 'react-native';
+import axios from 'axios';
 import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
 import { BlurView } from 'expo-blur';
 import {getPlato} from '../utils/cocinando.js';
@@ -20,10 +21,49 @@ export default function Receta (){
     const [imagen, setImagen] = useState("");
 
     //scraping imagen de google imagenes
+    function scrapeGoogleImages(searchQuery) {
+        const searchUrl = `https://www.google.com/search?q=gatitos&tbm=isch&tbs=isz:l&hl=es-419&sa=X&ved=0CAIQpwVqFwoTCODlqJnir_8CFQAAAAAdAAAAABAD&biw=1443&bih=1024`;
+      
+        return axios.get(searchUrl)
+          .then((response) => {
+            const imageUrls = extractImageUrls(response.data);
+            const largerImageUrls = getLargerImageUrls(imageUrls);
+            console.log('URLs de imágenes encontradas:');
+            console.log(largerImageUrls);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+      
+      function extractImageUrls(html) {
+        const regex = /<img[^>]+src="([^">]+)/g;
+        const matches = html.matchAll(regex);
+        const imageUrls = [];
+      
+        for (const match of matches) {
+          const imageUrl = match[1];
+          imageUrls.push(imageUrl);
+        }
+      
+        return imageUrls;
+      }
+      
+      function getLargerImageUrls(imageUrls) {
+        const largerImageUrls = [];
+      
+        for (const imageUrl of imageUrls) {
+          const largerImageUrl = imageUrl.replace(/(https?:\/\/[^\/]+\/[^\/]+\/)([^\/]+)/, '$1s0/$2');
+          largerImageUrls.push(largerImageUrl);
+        }
+      
+        return largerImageUrls;
+      }
+      useEffect(() => {
+        const searchQuery = 'gatos lindos';
+        scrapeGoogleImages(searchQuery);
+      }, []);
     
-    useEffect(() => {
-       
-    }, []);
 
 
     return (
