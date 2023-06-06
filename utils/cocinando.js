@@ -38,6 +38,7 @@ export const getPlato = async (ingredientes_pais) => {
                                 "pais": "Colombia",
                                 "respuesta": "Arroz con pollo",
                                 "receta": "..."
+                                "informacion_nutricional": "..."
                                
                             SOLO BRINDAR UNA RESPUESTA EN FORMATO JSON, SIN COMENTARIOS NI NADA. 
                         `

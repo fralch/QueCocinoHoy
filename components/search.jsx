@@ -56,7 +56,10 @@ export default function Search() {
         };
         try {
             const plato = await getPlato(ingredientes_pais);
-            console.log( plato);
+            let respuesta =  plato[0].message.content
+            respuesta = respuesta.replace(/<br>/g, '\n');
+            respuesta = JSON.parse(respuesta);
+            console.log(respuesta);
         } catch (error) {
             console.log(error);
         }

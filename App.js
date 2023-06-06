@@ -5,13 +5,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //components
 import Search from "./components/search";
+import Receta from "./components/receta";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Receta">
         <Stack.Screen name="Search" component={Search} options={{ headerShown: false}} />
+        <Stack.Screen name="Receta" component={Receta} options={{ headerShown: false}} />
+
       </Stack.Navigator>
 
     </NavigationContainer>
