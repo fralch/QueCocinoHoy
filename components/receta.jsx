@@ -17,11 +17,12 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 //mostrar receta
 export default function Receta (){
     const altura = Dimensions.get('window').height;
+    const [imagen, setImagen] = useState(null);
     useEffect(() => {
         //obteniendo imagen 
           const obtener_imagen = async () => {
-            const imagen = await Obteniendo_imagen();
-            console.log(imagen);
+            const imagen = await Obteniendo_imagen('pollo a la brasa');
+            setImagen(imagen);
           }
           
           obtener_imagen();
@@ -32,9 +33,9 @@ export default function Receta (){
     return (
         <View style={[styles.container, {flexDirection: 'column'}]}>
             <View style={{ flex: 2, flexDirection: 'row', alignItems: "center" }} >
-                <ImageBackground source={{uri :"https://portal.andina.pe/EDPfotografia3/Thumbnail/2018/06/26/000514068W.jpg"}} 
+                <ImageBackground source={{uri : imagen}} 
                     style={{ flex: 1, resizeMode: "cover", justifyContent: "center", height: altura*0.45 }} 
-                    blurRadius={10}
+                    blurRadius={0.8}
                 >
                     <BlurView tint="dark" intensity={50} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <Text style={{ color: "white", fontSize: 25, fontWeight: "bold" }}>Receta</Text>

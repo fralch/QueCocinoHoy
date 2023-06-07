@@ -1,22 +1,15 @@
 import axios from 'axios';
 
-export const Obteniendo_imagen = async () => {
+export const Obteniendo_imagen = async (plato) => {
 
-    let lista_imagenes = [];
     //scraping imagen de google imagenes
-    function scrapeGoogleImages(searchQuery) {
+    const scrapeGoogleImages = async (searchQuery) => {
         const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&tbm=isch&tbs=isz:lt,islt:qsvga&hl=es-419&sa=X&ved=0CAIQpwVqFwoTCODlqJnir_8CFQAAAAAdAAAAABAD&biw=1443&bih=1024`;
 
 
-         axios.get(searchUrl)
-            .then((response) => {
-                const imageUrls = extractImageUrls(response.data);
-                // console.log('URLs de imágenes encontradas:');
-                console.log(imageUrls);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        const imagenes = await axios.get(searchUrl);
+        const imageUrls = extractImageUrls(imagenes.data);
+        return imageUrls;
     }
 
     function extractImageUrls(html) {
@@ -30,10 +23,18 @@ export const Obteniendo_imagen = async () => {
         }
 
         return imageUrls;
-    }
+    } 
+
+    const data = await scrapeGoogleImages(plato);
+
+    return data[3]; 
+
+    
+    
+    
 
    
-        const searchQuery = 'lomo saltado';
-        await scrapeGoogleImages(searchQuery);
+
+
 
 };
