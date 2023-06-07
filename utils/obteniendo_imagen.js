@@ -22,11 +22,11 @@ export const Obteniendo_imagen = async () => {
     function extractImageUrls(html) {
         const regex = /<img[^>]+src="([^">]+)/g;
         const matches = html.matchAll(regex);
-        const lista_imagenes = [];
+        const imageUrls = [];
 
         for (const match of matches) {
             const imageUrl = match[1];
-            lista_imagenes.push(imageUrl);
+            imageUrls.push(imageUrl);
         }
 
         return imageUrls;
