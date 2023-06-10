@@ -9,32 +9,57 @@ import {
 } from 'react-native';
 
 import {Obteniendo_imagen} from '../utils/obteniendo_imagen.js';
+import {getPlato} from '../utils/recocinando.js';
 import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
 import { BlurView } from 'expo-blur';
-import {getPlato} from '../utils/cocinando.js';
-import { AntDesign, MaterialCommunityIcons, Entypo, FontAwesome   } from '@expo/vector-icons';
+import {getPlatoagain} from '../utils/recocinando.js';
+import { AntDesign, MaterialCommunityIcons, Entypo, FontAwesome, Foundation    } from '@expo/vector-icons';
 
 //mostrar receta
 export default function Receta (route ){
     const {receta} = route.route.params;
-    // console.log(typeof receta);
-
-
+    const [loading, setLoading] = useState(false);
     const altura = Dimensions.get('window').height;
     const [imagen, setImagen] = useState(null);
+    const [receta_, setReceta] = useState(receta);
     useEffect(() => {
+
         //obteniendo imagen 
           const obtener_imagen = async () => {
-            const imagen = await Obteniendo_imagen(receta.respuesta);
+            const imagen = await Obteniendo_imagen(receta_.respuesta);
             setImagen(imagen);
           }
           
           obtener_imagen();
-    }, []);
+    }, [receta_]);
 
-      
+    const recocinar = async () => {
+        setLoading(true);
+        const ingrediente_plato ={
+            ingrediente: String(receta.ingredientes), 
+            receta: receta.respuesta,
+            pais: receta.pais,
+        }
+
+
+        const plato = await getPlatoagain(ingrediente_plato);
+        let respuesta =  plato[0].message.content
+            respuesta = respuesta.replace(/<br>/g, '\n');
+            respuesta = JSON.parse(respuesta);
+            setLoading(false);
+            setReceta(respuesta);
+    }
 
     return (
+        loading ? 
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#F9CC00" }}>
+            <Image source={require('../assets/osito_cocinando.gif')}   
+                style={{ width: 120, height: 120, marginBottom: 50 }}
+                resizeMode="contain" 
+            />
+            <ActivityIndicator size="large" color="white" />
+        </View> 
+        :
         <View style={[styles.container, {flexDirection: 'column'}]}>
             <View style={{ flex: 2, flexDirection: 'row', alignItems: "center" }} >
                 <ImageBackground source={{uri : imagen}} 
@@ -42,7 +67,7 @@ export default function Receta (route ){
                     blurRadius={0.8}
                 >
                     <BlurView tint="dark" intensity={50} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ color: "white", fontSize: 25, fontWeight: "bold", alignSelf:"center"}}>{receta.respuesta}</Text>
+                        <Text style={{ color: "white", fontSize: 25, fontWeight: "bold", alignSelf:"center"}}>{receta_.respuesta}</Text>
                     </BlurView>
                 </ImageBackground>
             </View>
@@ -64,7 +89,7 @@ export default function Receta (route ){
                         Ingredientes
                     </Text>
                     <Text style={{ fontSize: 15, marginBottom: 10 }}>
-                        {receta.ingredientes}
+                        {receta_.ingredientes}
 
                     </Text>
 
@@ -72,19 +97,35 @@ export default function Receta (route ){
                         <MaterialCommunityIcons name="chef-hat" size={27} color="#F9CC00" />
                         Preparación
                     </Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>{receta.receta}</Text>
+                    <Text style={{ fontSize: 15, marginBottom: 10 }}>{receta_.receta}</Text>
                    
 
                     <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10, marginTop: 10 ,padding:5 }}>
                         <MaterialCommunityIcons name="label-percent" size={28} color="#F9CC00" />
                         Información nutricional
                     </Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>{receta.informacion_nutricional}</Text>
+                    <Text style={{ fontSize: 15, marginBottom: 10 }}>{receta_.informacion_nutricional}</Text>
 
                     
                 </ScrollView>
             </View>
-
+            <TouchableOpacity
+               onPress={() => recocinar()}
+                style={{
+                    width: 50,
+                    height: 50,
+                    backgroundColor: '#F9CC00',
+                    borderRadius: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 20,
+                    position: 'absolute',
+                    bottom: 10,
+                    right: 10,
+                }}
+            >
+                <Foundation name="refresh" size={24} color="white" />
+            </TouchableOpacity>
         </View>
     );
 

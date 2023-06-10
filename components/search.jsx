@@ -18,6 +18,7 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 export default function Search() {
     const navigation = useNavigation();
     const altura = Dimensions.get('window').height;
+    const [loading, setLoading] = useState(false);
     const [modalPais, setModalPais] = useState(false);
     const [isKeyboardActive, setKeyboardActive] = useState(false);
     const [ingrediente, setIngrediente] = useState('');
@@ -53,6 +54,7 @@ export default function Search() {
     }
 
     const obtenerPlato = async () => {
+        setLoading(true);
         const ingredientes_pais = {
             ingredientes,
             pais
@@ -62,6 +64,7 @@ export default function Search() {
             let respuesta =  plato[0].message.content
             respuesta = respuesta.replace(/<br>/g, '\n');
             respuesta = JSON.parse(respuesta);
+            setLoading(false);
             navigation.navigate('Receta', {receta: respuesta});
 
         } catch (error) {
@@ -111,6 +114,15 @@ export default function Search() {
     }, []);
 
     return (
+        loading ? 
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#F9CC00" }}>
+            <Image source={require('../assets/osito_cocinando2.gif')}   
+                style={{ width: 120, height: 120, marginBottom: 50 }}
+                resizeMode="contain" 
+            />
+            <ActivityIndicator size="large" color="white" />
+        </View> 
+        :
         <View style={styles.container}>
             {
                 isKeyboardActive ? null :
