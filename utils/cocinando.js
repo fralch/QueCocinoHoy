@@ -29,17 +29,16 @@ export const getPlato = async (ingredientes_pais) => {
                     role: "system",
                     content: 
                         `
-                            El usuario quiere cocinar algo con ${ingredientes} y 
+                            El usuario quiere cocinar algo con ${ingredientes} (no necesariamente se usan todos estos ingredientes) y 
                             quiere cocinar una comida muy tipica de ${pais}, que no sea ningun tipo de tortilla a menos que el pais sea de mexico, puedes agregar algunos ingredientes,  ¿qué le recomiendas?, debes responder en español.
                             Y en formato de JSON como por ejemplo:
-                            
-                                "tus_ingredientes": "pollo, arroz, tomate",
-                                "ingredientes_extra": "sal, pimienta",
+                            {
+                                "ingredientes": "...",
                                 "pais": "Colombia",
                                 "respuesta": "Arroz con pollo",
-                                "receta": "..."
+                                "receta": "...",
                                 "informacion_nutricional": "..."
-                               
+                            }  
                             SOLO BRINDAR UNA RESPUESTA EN FORMATO JSON, SIN COMENTARIOS NI NADA. 
                         `
                 },

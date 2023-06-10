@@ -12,16 +12,20 @@ import {Obteniendo_imagen} from '../utils/obteniendo_imagen.js';
 import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
 import { BlurView } from 'expo-blur';
 import {getPlato} from '../utils/cocinando.js';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons, Entypo, FontAwesome   } from '@expo/vector-icons';
 
 //mostrar receta
-export default function Receta (){
+export default function Receta (route ){
+    const {receta} = route.route.params;
+    // console.log(typeof receta);
+
+
     const altura = Dimensions.get('window').height;
     const [imagen, setImagen] = useState(null);
     useEffect(() => {
         //obteniendo imagen 
           const obtener_imagen = async () => {
-            const imagen = await Obteniendo_imagen('pollo a la brasa');
+            const imagen = await Obteniendo_imagen(receta.respuesta);
             setImagen(imagen);
           }
           
@@ -38,7 +42,7 @@ export default function Receta (){
                     blurRadius={0.8}
                 >
                     <BlurView tint="dark" intensity={50} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ color: "white", fontSize: 25, fontWeight: "bold" }}>Receta</Text>
+                        <Text style={{ color: "white", fontSize: 25, fontWeight: "bold", alignSelf:"center"}}>{receta.respuesta}</Text>
                     </BlurView>
                 </ImageBackground>
             </View>
@@ -54,25 +58,28 @@ export default function Receta (){
                 alignItems: "center"
 
              }} >
-                <ScrollView style={{ flex: 1, flexDirection: 'column', padding: 10 }} >
-                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>Ingredientes</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1/2 taza de mantequilla</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1/2 taza de azúcar</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1/2 taza de azúcar morena</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1 huevo</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1 cucharadita de vainilla</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1 1/2 tazas de harina</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1/2 cucharadita de bicarbonato de sodio</Text>
+                <ScrollView style={{ flex: 1, flexDirection: 'column', padding: 10 }} showsVerticalScrollIndicator={false}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 , padding:5}}>
+                        <Entypo name="bowl" size={28} color="#F9CC00" style={{ marginRight:5}} />
+                        Ingredientes
+                    </Text>
+                    <Text style={{ fontSize: 15, marginBottom: 10 }}>
+                        {receta.ingredientes}
 
-                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10, marginTop: 10 }}>Preparación</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>1. Precalienta el horno a 180 °C.</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>2. En un tazón, bate la mantequilla con el azúcar y el azúcar morena hasta que estén cremosos.</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>3. Agrega el huevo y la vainilla y bate hasta integrar.</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>4. Agrega la harina y el bicarbonato y mezcla hasta integrar.</Text>
+                    </Text>
 
-                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10, marginTop: 10 }}>Información nutricional</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>Calorías: 120 kcal</Text>
-                    <Text style={{ fontSize: 15, marginBottom: 10 }}>Carbohidratos: 15 g</Text>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10, marginTop: 10 , padding:5}}>
+                        <MaterialCommunityIcons name="chef-hat" size={27} color="#F9CC00" />
+                        Preparación
+                    </Text>
+                    <Text style={{ fontSize: 15, marginBottom: 10 }}>{receta.receta}</Text>
+                   
+
+                    <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10, marginTop: 10 ,padding:5 }}>
+                        <MaterialCommunityIcons name="label-percent" size={28} color="#F9CC00" />
+                        Información nutricional
+                    </Text>
+                    <Text style={{ fontSize: 15, marginBottom: 10 }}>{receta.informacion_nutricional}</Text>
 
                     
                 </ScrollView>

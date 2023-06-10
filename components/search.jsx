@@ -8,12 +8,15 @@ import {
     TextInput, Button, Keyboard, Modal
 } from 'react-native';
 import {storeSesion, getSesion, removeSesion} from '../hooks/handleSession.js';
+import { useNavigation } from '@react-navigation/native';
+
 import { BlurView } from 'expo-blur';
 import {getPlato} from '../utils/cocinando.js';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export default function Search() {
+    const navigation = useNavigation();
     const altura = Dimensions.get('window').height;
     const [modalPais, setModalPais] = useState(false);
     const [isKeyboardActive, setKeyboardActive] = useState(false);
@@ -59,7 +62,8 @@ export default function Search() {
             let respuesta =  plato[0].message.content
             respuesta = respuesta.replace(/<br>/g, '\n');
             respuesta = JSON.parse(respuesta);
-            console.log(respuesta);
+            navigation.navigate('Receta', {receta: respuesta});
+
         } catch (error) {
             console.log(error);
         }
