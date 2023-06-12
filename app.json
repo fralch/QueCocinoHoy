@@ -2,7 +2,7 @@
   "expo": {
     "name": "QueCocinoHoy",
     "slug": "QueCocinoHoy",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.fralch.QueCocinoHoy",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "27f7b090-da31-443f-abf0-2bf01289b87e"
+      }
     }
   }
 }
