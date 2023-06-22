@@ -25,6 +25,9 @@
       "package": "com.fralch.QueCocinoHoy",
       "versionCode": 2
     },
+    "androidStatusBar": {
+      "backgroundColor": "transparent"
+    },    
     "web": {
       "favicon": "./assets/favicon.png"
     },

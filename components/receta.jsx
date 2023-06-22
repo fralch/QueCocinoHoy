@@ -109,23 +109,6 @@ export default function Receta (route ){
                     
                 </ScrollView>
             </View>
-            <TouchableOpacity
-               onPress={() => recocinar()}
-                style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: '#F9CC00',
-                    borderRadius: 50,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: 20,
-                    position: 'absolute',
-                    bottom: 10,
-                    right: 10,
-                }}
-            >
-                <Foundation name="refresh" size={24} color="white" />
-            </TouchableOpacity>
         </View>
     );
 

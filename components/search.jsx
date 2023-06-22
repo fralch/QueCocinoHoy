@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
 import {getPlato} from '../utils/cocinando.js';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import axios from 'axios';
 
 
 export default function Search() {
@@ -22,7 +23,7 @@ export default function Search() {
     const [modalPais, setModalPais] = useState(false);
     const [isKeyboardActive, setKeyboardActive] = useState(false);
     const [ingrediente, setIngrediente] = useState('');
-    const [ingredientes, setIngredientes] = useState(['huevos', '2 papas', '3 zanahorias', '1 cebolla', '1 tomate', '1/2 taza de leche']);
+    const [ingredientes, setIngredientes] = useState(['huevos', '2 papas', '3 zanahorias', '1 cebolla', '1 tomate']);
     const [pais, setPais] = useState(null);
 
     const quitarIngrediente = (index) => {
@@ -60,13 +61,25 @@ export default function Search() {
             pais
         };
         try {
-            const plato = await getPlato(ingredientes_pais);
-            let respuesta =  plato[0].message.content
-            respuesta = respuesta.replace(/<br>/g, '\n');
-            respuesta = JSON.parse(respuesta);
-            setLoading(false);
-            navigation.navigate('Receta', {receta: respuesta});
-
+            // const plato = await getPlato(ingredientes_pais);
+            // let respuesta =  plato[0].message.content
+            fetch('http://162.248.55.24:3000/gpt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ingredientes_pais)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                let respuesta =  data[0].message.content
+                respuesta = respuesta.replace(/<br>/g, '\n');
+                respuesta = JSON.parse(respuesta);
+                setLoading(false);
+                navigation.navigate('Receta', {receta: respuesta});
+            })
+            .catch(err => console.log(err));
         } catch (error) {
             console.log(error);
         }
