@@ -209,7 +209,7 @@ export default function Search() {
                     isKeyboardActive ? null :
                         <TouchableOpacity 
                             style={{ backgroundColor: '#383838', padding: 10, borderRadius: 10, height: 60, justifyContent: "center", width: "75%", alignSelf: "center", justifyContent: "center" }}
-                            onPress={() => obtenerPlato()}
+                            
                         >
                             <MaterialCommunityIcons style={{ alignSelf: "center" }} name="chef-hat" size={30} color="#F9CC00" />
                             <Text style={{ color: '#F9CC00', textAlign: "center", fontWeight: "bold" }}>Cocinar</Text>
