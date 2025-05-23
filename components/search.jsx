@@ -210,7 +210,19 @@ export default function Search() {
                     isKeyboardActive ? null :
                         <TouchableOpacity 
                             style={{ backgroundColor: '#383838', padding: 10, borderRadius: 10, height: 60, justifyContent: "center", width: "75%", alignSelf: "center", justifyContent: "center" }}
-                            
+                            onPress={() => {
+                                // Datos de ejemplo para demostración
+                                const recetaEjemplo = {
+                                    ingredientes: ingredientes.join(", "),
+                                    pais: pais || "Perú",
+                                    respuesta: "Lomo Saltado",
+                                    receta: "1. Cortar la carne en tiras finas.\n2. Cortar las cebollas y tomates en tiras.\n3. Freír las papas en aceite caliente hasta que estén doradas.\n4. En un wok o sartén grande, calentar aceite a fuego alto.\n5. Saltear la carne hasta que esté dorada.\n6. Agregar las cebollas y tomates, saltear por 2 minutos.\n7. Agregar salsa de soya, vinagre y condimentos.\n8. Mezclar bien y servir sobre las papas fritas con arroz blanco.",
+                                    informacion_nutricional: "Calorías: 450 kcal\nProteínas: 30g\nCarbohidratos: 40g\nGrasas: 20g\nFibra: 5g"
+                                };
+                                
+                                // Navegar a la pantalla de receta con los datos de ejemplo
+                                navigation.navigate('Receta', {receta: recetaEjemplo});
+                            }}
                         >
                             <MaterialCommunityIcons style={{ alignSelf: "center" }} name="chef-hat" size={30} color="#F9CC00" />
                             <Text style={{ color: '#F9CC00', textAlign: "center", fontWeight: "bold" }}>Cocinar</Text>
