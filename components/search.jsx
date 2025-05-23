@@ -92,9 +92,9 @@ export default function Search() {
                 if (pais != null) {
                     setPais(pais);
                 }
-                if (pais == null) {
-                    setModalPais(true);
-                }
+                // if (pais == null) {
+                //     setModalPais(true);
+                // }
             } catch (error) {
                 console.log(error);
             }
@@ -179,6 +179,7 @@ export default function Search() {
                         <AntDesign name="caretright" size={24} color="#383838" />
                     </TouchableOpacity>
                 </View>
+                <Text style={{ color: '#383838', fontWeight: "bold", fontSize: 15, marginLeft: 50, marginTop: 20 }}>Ingredientes:</Text>
                 <ScrollView style={{ height: altura*0.25}} showsVerticalScrollIndicator={false}>
                     {
                         isKeyboardActive ? null :
